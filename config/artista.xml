@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Sequence name="fase1">
+                <Action ID="MovePlat2" position="1"/>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase2">
+                <Action ID="MovePlat4" position="1"/>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase3">
+                <Parallel failure_threshold="1" name="fase3" success_threshold="2">
+                    <Action ID="MovePlat1" position="1"/>
+                    <Action ID="MovePlat4" position="4"/>
+                </Parallel>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase4">
+                <Parallel failure_threshold="1" success_threshold="2">
+                    <Action ID="MovePlat3" position="1"/>
+                    <Action ID="MovePlat4" position="3"/>
+                </Parallel>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase5">
+                <Parallel failure_threshold="1" name="fase5" success_threshold="2">
+                    <Action ID="MovePlat3" position="0"/>
+                    <Action ID="MovePlat4" position="4"/>
+                </Parallel>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase6">
+                <Parallel failure_threshold="1" name="fase6" success_threshold="2">
+                    <Action ID="MovePlat4" position="1"/>
+                    <Action ID="MovePlat1" position="0"/>
+                </Parallel>
+                <Action ID="WaitAndCheckStatus" name=""/>
+            </Sequence>
+            <Sequence name="fase7">
+                <Action ID="MovePlat4" position="0"/>
+                <Action ID="WaitAndCheckStatus"/>
+            </Sequence>
+            <Sequence name="fase8">
+                <Action ID="MovePlat2" position="0"/>
+                <Action ID="WaitAndCheckStatus"/>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="MovePlat1">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat2">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat3">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat4">
+            <input_port name="position"/>
+        </Action>
+        <Condition ID="WaitAndCheckStatus"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

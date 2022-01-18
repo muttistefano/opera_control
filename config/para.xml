@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Repeat num_cycles="1">
+            <Sequence>
+                <Parallel failure_threshold="1" name="fase3" success_threshold="2">
+                    <Action ID="MovePlat1" position="1"/>
+                    <Action ID="MovePlat4" position="4"/>
+                </Parallel>
+            </Sequence>
+        </Repeat>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="MovePlat1">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat2">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat3">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat4">
+            <input_port name="position"/>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

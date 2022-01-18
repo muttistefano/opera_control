@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="MainTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="MainTree">
+        <Sequence name="root_sequence">
+            <Condition ID="CheckBattery" name="check_battery"/>
+            <Action ID="OpenGripper" name="open_gripper"/>
+            <Action ID="ApproachObject" name="approach_object"/>
+            <Action ID="CloseGripper" name="close_gripper"/>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="ApproachObject"/>
+        <Condition ID="CheckBattery"/>
+        <Action ID="CloseGripper"/>
+        <Action ID="OpenGripper"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

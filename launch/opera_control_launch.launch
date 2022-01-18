@@ -1,0 +1,15 @@
+<launch>
+
+    <node pkg="opera_control" type="opera_control_node" name="opera_control_node" output="screen">
+
+      <param name="tree_path" value="$(find opera_control)/config/artista.xml" />
+
+      <param name="rp1_status_topic" value="/rp_control_rp1/Plat_conf_rp1" />
+      <param name="rp2_status_topic" value="/rp_control_rp2/Plat_conf_rp2" />
+      <param name="rp3_status_topic" value="/rp_control_rp3/Plat_conf_rp3" />
+      <param name="rp4_status_topic" value="/rp_control_rp4/Plat_conf_rp4" />
+      rp1_status_topic
+
+    </node>
+
+</launch>
