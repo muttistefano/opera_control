@@ -1,5 +1,11 @@
 <launch>
 
+    <machine name="rp1_root" user="root"   address="rp1" default="false" env-loader="/home/ubuntu/env.sh"/>
+    <machine name="rp2_root" user="root"   address="rp2" default="false" env-loader="/home/ubuntu/env.sh"/>
+    <machine name="rp3_root" user="root"   address="rp3" default="false" env-loader="/home/ubuntu/env.sh"/>
+    <machine name="rp4_root" user="root"   address="rp4" default="false" env-loader="/home/ubuntu/env.sh"/>
+
+
     <node pkg="opera_control" type="opera_control_node" name="opera_control_node" output="screen">
 
       <param name="tree_path" value="$(find opera_control)/config/artista.xml" />
@@ -8,8 +14,14 @@
       <param name="rp2_status_topic" value="/rp_control_rp2/Plat_conf_rp2" />
       <param name="rp3_status_topic" value="/rp_control_rp3/Plat_conf_rp3" />
       <param name="rp4_status_topic" value="/rp_control_rp4/Plat_conf_rp4" />
-      rp1_status_topic
 
     </node>
+
+
+    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp1" output="screen" machine="rp1_root" />
+    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp2" output="screen" machine="rp2_root" />
+    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp3" output="screen" machine="rp3_root" />
+    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp4" output="screen" machine="rp4_root" />
+  
 
 </launch>
