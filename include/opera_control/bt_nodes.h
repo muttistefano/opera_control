@@ -5,7 +5,7 @@
 #include <pkg_rp_control/MovePlatSrv.h>
 #include <iostream>
 #include <fstream>
-
+#include <std_srvs/Trigger.h>
 
 // Example of custom SyncActionNode (synchronous action)
 // without ports.
@@ -24,30 +24,50 @@ class SystemCheck
       if (!_nh.getParam("rp2_status_topic", _rp2_status_topic)) {ROS_ERROR("Param rp2_status_topic not found, set to /rp2/status");}
       if (!_nh.getParam("rp3_status_topic", _rp3_status_topic)) {ROS_ERROR("Param rp3_status_topic not found, set to /rp3/status");}
       if (!_nh.getParam("rp4_status_topic", _rp4_status_topic)) {ROS_ERROR("Param rp4_status_topic not found, set to /rp4/status");}
+      Stop_service   = _nh.advertiseService("Stop_service" , &SystemCheck::RequestStop , this);
+      Start_service  = _nh.advertiseService("Start_service", &SystemCheck::Requeststart, this);
 
     };
 
     BT::NodeStatus WaitAndCheckStatus()
     {
-      _rp1_status = *(ros::topic::waitForMessage<std_msgs::Int8>(_rp1_status_topic, _nh, ros::Duration(2)));
-      _rp3_status = *(ros::topic::waitForMessage<std_msgs::Int8>(_rp2_status_topic, _nh, ros::Duration(2)));
-      _rp4_status = *(ros::topic::waitForMessage<std_msgs::Int8>(_rp3_status_topic, _nh, ros::Duration(2)));
-      _rp4_status = *(ros::topic::waitForMessage<std_msgs::Int8>(_rp4_status_topic, _nh, ros::Duration(2)));
-
-      std::cout << "[ Status:  " << int(_rp1_status.data) << " " << int(_rp2_status.data) << " " << int(_rp3_status.data) << " " << int(_rp4_status.data) << " ]" << std::endl;
+      _rp1_status = ros::topic::waitForMessage<std_msgs::Int8>(_rp1_status_topic, _nh, ros::Duration(2));
+      _rp2_status = ros::topic::waitForMessage<std_msgs::Int8>(_rp2_status_topic, _nh, ros::Duration(2));
+      _rp3_status = ros::topic::waitForMessage<std_msgs::Int8>(_rp3_status_topic, _nh, ros::Duration(2));
+      _rp4_status = ros::topic::waitForMessage<std_msgs::Int8>(_rp4_status_topic, _nh, ros::Duration(2));
+      if(_rp1_status == nullptr){ROS_FATAL("No status from rp1");return BT::NodeStatus::FAILURE;}
+      if(_rp2_status == nullptr){ROS_FATAL("No status from rp2");return BT::NodeStatus::FAILURE;}
+      if(_rp3_status == nullptr){ROS_FATAL("No status from rp3");return BT::NodeStatus::FAILURE;}
+      if(_rp4_status == nullptr){ROS_FATAL("No status from rp4");return BT::NodeStatus::FAILURE;}
+      std::cout << "[ Status:  " << int((*_rp1_status).data) << " " << int((*_rp2_status).data) << " " << int((*_rp3_status).data) << " " << int((*_rp4_status).data) << " ]" << std::endl;
       return BT::NodeStatus::SUCCESS;
     }
+
+    bool isStopping(){return _stop_request;}
+    bool isStarting(){return _start_request;}
+
+    bool RequestStop(std_srvs::Trigger::Request  &req,
+              std_srvs::Trigger::Response &res);
+
+    bool Requeststart(std_srvs::Trigger::Request  &req,
+              std_srvs::Trigger::Response &res);
   
   private:
     ros::NodeHandle _nh;
-    std_msgs::Int8 _rp1_status = std_msgs::Int8();
-    std_msgs::Int8 _rp2_status = std_msgs::Int8();
-    std_msgs::Int8 _rp3_status = std_msgs::Int8();
-    std_msgs::Int8 _rp4_status = std_msgs::Int8();
+    std_msgs::Int8ConstPtr _rp1_status = nullptr;
+    std_msgs::Int8ConstPtr _rp2_status = nullptr;
+    std_msgs::Int8ConstPtr _rp3_status = nullptr;
+    std_msgs::Int8ConstPtr _rp4_status = nullptr;
     std::string _rp1_status_topic = "";
     std::string _rp2_status_topic = "";
     std::string _rp3_status_topic = "";
     std::string _rp4_status_topic = "";
+
+    ros::ServiceServer Start_service;
+    ros::ServiceServer  Stop_service;
+
+    bool _stop_request  = false;
+    bool _start_request = false;
 
     std::vector<uint8_t> _status {0,0,0,0};
     std::vector<std::vector<uint8_t>> _configurations {{0,1,0,0},
@@ -70,7 +90,7 @@ class MovePlat1 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/rp_control_rp1/MovePlat_rp1");
+      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp1/MovePlat_rp1");
     }
 
     static PortsList providedPorts()
@@ -104,7 +124,7 @@ class MovePlat2 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/rp_control_rp2/MovePlat_rp2");
+      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp2/MovePlat_rp2");
     }
 
     static PortsList providedPorts()
@@ -137,7 +157,7 @@ class MovePlat3 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/rp_control_rp3/MovePlat_rp3");
+      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp3/MovePlat_rp3");
     }
 
     static PortsList providedPorts()
@@ -170,7 +190,7 @@ class MovePlat4 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/rp_control_rp4/MovePlat_rp4");
+      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp4/MovePlat_rp4");
     }
 
     static PortsList providedPorts()

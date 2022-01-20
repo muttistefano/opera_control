@@ -77,6 +77,23 @@ BT::NodeStatus MovePlat4::tick()
 }
 
 
+bool SystemCheck::RequestStop(std_srvs::Trigger::Request  &req,
+            std_srvs::Trigger::Response &res)
+{
+    ROS_ERROR("Stop requested");
+    this->_stop_request  = true;
+    this->_start_request = false;
+    return true;
+}
+
+bool SystemCheck::Requeststart(std_srvs::Trigger::Request  &req,
+            std_srvs::Trigger::Response &res)
+{
+    ROS_ERROR("Start requested");
+    this->_stop_request  = false;
+    this->_start_request = true;
+    return true;
+}
 
 
 int main(int argc, char** argv)
@@ -115,11 +132,28 @@ int main(int argc, char** argv)
 
     PublisherZMQ publisher_zmq(tree);
 
+    //TODO takes this out and esnsure all the rosruns spawned
+    ros::Duration(5).sleep();
+    ROS_INFO("STARTING\n");
 
     while(ros::ok())
     {
-        auto asd = tree.tickRoot();
-        ros::Duration(.3).sleep();
+        auto ret_tree = tree.tickRoot();
+        ros::Duration(.5).sleep();
+        if ( ret_tree == BT::NodeStatus::SUCCESS)
+        {
+            if(checker.isStopping())
+            {
+              ROS_FATAL("System stopped \n");  
+              while(!checker.isStarting())
+              {
+                  ROS_WARN("SYSTEM IDLE \n");
+                  ros::Duration(2).sleep();
+              }
+            }
+            ROS_WARN("Cycle finished \n");
+            ros::Duration(10).sleep();
+        }
         
     }
     
@@ -128,11 +162,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
-/* Expected output:
-*
-       [ Battery: OK ]
-       GripperInterface::open
-       ApproachObject: approach_object
-       GripperInterface::close
-*/

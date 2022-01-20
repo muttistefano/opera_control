@@ -1,0 +1,196 @@
+<html>
+    <head>
+        <title>Status</title>
+        <style>
+            .container {
+              position: relative;
+              width: 100%;
+              max-width: 920px;
+            }
+            
+            .container img {
+              width: 100%;
+              height: auto;
+            }
+            
+            .container .btn1up {
+              position: absolute;
+              top: 15%;
+              left: 78%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgba(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .btn1down {
+              position: absolute;
+              top: 85%;
+              left: 78%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+            
+            .container .btn2up {
+              position: absolute;
+              top: 15%;
+              left: 42%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgba(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .btn2down {
+              position: absolute;
+              top: 85%;
+              left: 42%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .btn3up {
+              position: absolute;
+              top: 8%;
+              left: 14%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgba(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .btn3down {
+              position: absolute;
+              top: 31%;
+              left: 14%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+            
+            .container .btn4left {
+              position: absolute;
+              top: 67%;
+              left: 6%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgba(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .btn4right {
+              position: absolute;
+              top: 67%;
+              left: 23%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(192, 36, 36);
+              font-size: 50px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .stop {
+              position: absolute;
+              top: 110%;
+              left: 85%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(255, 0, 0);
+              font-size: 80px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+
+            .container .start {
+              position: absolute;
+              top: 110%;
+              left: 15%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(0, 255, 8);
+              font-size: 80px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+            
+     
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img src="{{url_for('static',filename = 'draw_opera.jpg')}}" alt="opera">
+            <form method="post" action="/">
+              <button class="btn1up"     value="btn1up"   type="submit" value="VALUE1" name="btn1up"    >    &#8593 </button>
+              <button class="btn1down"   value="btn1down" type="submit" value="VALUE2" name="btn1down"  >    &#8595 </button>
+              <button class="btn2up"     value="btn2up"   type="submit" value="VALUE3" name="btn2up"    >    &#8593 </button>
+              <button class="btn2down"   value="btn1up"   type="submit" value="VALUE4" name="btn2down"  >    &#8595 </button>
+              <button class="btn3up"     value="btn1up"   type="submit" value="VALUE5" name="btn3up"    >    &#8593 </button>
+              <button class="btn3down"   value="btn1up"   type="submit" value="VALUE6" name="btn3down"  >    &#8595 </button>
+              <button class="btn4left"   value="btn1up"   type="submit" value="VALUE7" name="btn4left"  >    &#8592 </button>
+              <button class="btn4right"  value="btn1up"   type="submit" value="VALUE8" name="btn4right" >    &#8594 </button>
+              <button class="stop"       value="stop"     type="submit" value="STOP"   name="stop"      >    STOP   </button>
+              <button class="start"      value="start"    type="submit" value="START"  name="start"     >    START  </button>
+            </form>
+        </div>
+    </body>
+</html>  
