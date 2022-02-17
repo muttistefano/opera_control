@@ -2,7 +2,7 @@
 #include <std_msgs/Int8.h>
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_zmq_publisher.h"
-#include <pkg_rp_control/MovePlatSrv.h>
+#include <pkg_rp_msgs/MovePlatSrv.h>
 #include <iostream>
 #include <fstream>
 #include <std_srvs/Trigger.h>
@@ -90,7 +90,7 @@ class MovePlat1 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp1/MovePlat_rp1");
+      MoveService = nh.serviceClient<pkg_rp_msgs::MovePlatSrv> ("/rp_control_rp1/MovePlat_rp1");
     }
 
     static PortsList providedPorts()
@@ -124,7 +124,7 @@ class MovePlat2 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp2/MovePlat_rp2");
+      MoveService = nh.serviceClient<pkg_rp_msgs::MovePlatSrv> ("/rp_control_rp2/MovePlat_rp2");
     }
 
     static PortsList providedPorts()
@@ -157,7 +157,7 @@ class MovePlat3 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp3/MovePlat_rp3");
+      MoveService = nh.serviceClient<pkg_rp_msgs::MovePlatSrv> ("/rp_control_rp3/MovePlat_rp3");
     }
 
     static PortsList providedPorts()
@@ -190,7 +190,7 @@ class MovePlat4 : public AsyncActionNode
       : AsyncActionNode(name, config)
     {
       ros::NodeHandle nh;
-      MoveService = nh.serviceClient<pkg_rp_control::MovePlatSrv> ("/pkg_rp_control_rp4/MovePlat_rp4");
+      MoveService = nh.serviceClient<pkg_rp_msgs::MovePlatSrv> ("/rp_control_rp4/MovePlat_rp4");
     }
 
     static PortsList providedPorts()
@@ -214,14 +214,4 @@ class MovePlat4 : public AsyncActionNode
     std::atomic_bool _halt_requested;
     int _position = 0;
 };
-
-
-
-
-// BT::NodeStatus WaitAndCheckStatus()
-// {
-//     std::cout << "[ Status: OK ]" << std::endl;
-//     return BT::NodeStatus::SUCCESS;
-// }
-
 

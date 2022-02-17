@@ -9,9 +9,9 @@ BT::NodeStatus MovePlat1::tick()
         throw BT::RuntimeError("missing required input [position]: ", 
                                 msg.error() );
     }
-
+    std::cout << " value : " << msg.value();
     _halt_requested.store(false);
-    pkg_rp_control::MovePlatSrv srv;
+    pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
     //TODO check response
@@ -30,7 +30,7 @@ BT::NodeStatus MovePlat2::tick()
     }
 
     _halt_requested.store(false);
-    pkg_rp_control::MovePlatSrv srv;
+    pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
     //TODO check response
@@ -49,7 +49,7 @@ BT::NodeStatus MovePlat3::tick()
     }
 
     _halt_requested.store(false);
-    pkg_rp_control::MovePlatSrv srv;
+    pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
     //TODO check response
@@ -68,7 +68,7 @@ BT::NodeStatus MovePlat4::tick()
     }
 
     _halt_requested.store(false);
-    pkg_rp_control::MovePlatSrv srv;
+    pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
     //TODO check response
@@ -118,8 +118,7 @@ int main(int argc, char** argv)
 
 
     SystemCheck checker(&nh);
-    factory.registerSimpleAction("WaitAndCheckStatus", 
-                                 std::bind(&SystemCheck::WaitAndCheckStatus, &checker));
+    factory.registerSimpleAction("WaitAndCheckStatus", std::bind(&SystemCheck::WaitAndCheckStatus, &checker));
 
 
     factory.registerNodeType<MovePlat1>("MovePlat1");
@@ -138,6 +137,7 @@ int main(int argc, char** argv)
 
     while(ros::ok())
     {
+        // ROS_INFO_STREAM_THROTTLE(30,"TICK\n");;
         auto ret_tree = tree.tickRoot();
         ros::Duration(.5).sleep();
         if ( ret_tree == BT::NodeStatus::SUCCESS)
@@ -145,7 +145,7 @@ int main(int argc, char** argv)
             if(checker.isStopping())
             {
               ROS_FATAL("System stopped \n");  
-              while(!checker.isStarting())
+              while(!checker.isStarting() && ros::ok())
               {
                   ROS_WARN("SYSTEM IDLE \n");
                   ros::Duration(2).sleep();

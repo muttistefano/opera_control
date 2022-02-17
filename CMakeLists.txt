@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   behaviortree_cpp_v3
   pkg_rp_control
+  pkg_rp_msgs
   roscpp
 )
 

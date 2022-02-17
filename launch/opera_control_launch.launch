@@ -2,9 +2,9 @@
 
 
 
-    <node pkg="opera_control" type="opera_control_node" name="opera_control_node" output="screen">
+    <node pkg="opera_control" type="opera_control_node" name="opera_control_node" output="screen" >
 
-      <param name="tree_path" value="$(find opera_control)/config/artista.xml" />
+      <param name="tree_path" value="$(find opera_control)/config/artista_test.xml" />
 
       <param name="rp1_status_topic" value="/rp_control_rp1/Plat_conf_rp1" />
       <param name="rp2_status_topic" value="/rp_control_rp2/Plat_conf_rp2" />

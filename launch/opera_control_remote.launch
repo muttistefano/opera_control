@@ -8,20 +8,20 @@
 
     <node pkg="opera_control" type="opera_control_node" name="opera_control_node" output="screen" launch-prefix="  ">
 
-      <param name="tree_path" value="$(find opera_control)/config/artista.xml" />
+      <param name="tree_path" value="$(find opera_control)/config/artista_test.xml" />
 
-      <param name="rp1_status_topic" value="/pkg_rp_control_rp1/Plat_conf_rp1" />
-      <param name="rp2_status_topic" value="/pkg_rp_control_rp2/Plat_conf_rp2" />
-      <param name="rp3_status_topic" value="/pkg_rp_control_rp3/Plat_conf_rp3" />
-      <param name="rp4_status_topic" value="/pkg_rp_control_rp4/Plat_conf_rp4" />
+      <param name="rp1_status_topic" value="/rp_control_rp1/Plat_conf_rp1" />
+      <param name="rp2_status_topic" value="/rp_control_rp2/Plat_conf_rp2" />
+      <param name="rp3_status_topic" value="/rp_control_rp3/Plat_conf_rp3" />
+      <param name="rp4_status_topic" value="/rp_control_rp4/Plat_conf_rp4" />
 
     </node>
 
 
-    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp1" output="screen" machine="rp1_root" />
-    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp2" output="screen" machine="rp2_root" />
-    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp3" output="screen" machine="rp3_root" />
-    <node pkg="pkg_rp_control" type="pkg_rp_control_node" name="pkg_rp_control_rp4" output="screen" machine="rp4_root" />
+    <node pkg="pkg_rp_control"   type="pkg_rp_control_node"   name="rp_control_rp1" output="screen" machine="rp1_root" />
+    <node pkg="pkg_rp_control"   type="pkg_rp_control_node"   name="rp_control_rp2" output="screen" machine="rp2_root" />
+    <node pkg="pkg_rp_control"   type="pkg_rp_control_node"   name="rp_control_rp3" output="screen" machine="rp3_root" />
+    <node pkg="pkg_rp_control_4" type="pkg_rp_control_4_node" name="rp_control_rp4" output="screen" machine="rp4_root" />
   
 
 </launch>
