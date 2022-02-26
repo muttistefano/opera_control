@@ -157,6 +157,36 @@
               text-align: center;
             }
 
+            .container .off {
+              position: absolute;
+              top: 110%;
+              left: 45%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(255, 0, 0);
+              font-size: 80px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
+            .container .kill {
+              position: absolute;
+              top: 140%;
+              left: 45%;
+              transform: translate(-50%, -50%);
+              -ms-transform: translate(-50%, -50%);
+              background-color: rgb(133, 133, 133, 0.494);
+              color: rgb(255, 0, 0);
+              font-size: 80px;
+              padding: 12px 24px;
+              border: none;
+              cursor: pointer;
+              border-radius: 5px;
+              text-align: center;
+            }
             .container .start {
               position: absolute;
               top: 110%;
@@ -180,15 +210,17 @@
         <div class="container">
             <img src="{{url_for('static',filename = 'draw_opera.jpg')}}" alt="opera">
             <form method="post" action="/">
-              <button class="btn1up"     value="btn1up"   type="submit" value="VALUE1" name="btn1up"    >    &#8593 </button>
+              <!-- <button class="btn1up"     value="btn1up"   type="submit" value="VALUE1" name="btn1up"    >    &#8593 </button> -->
               <button class="btn1down"   value="btn1down" type="submit" value="VALUE2" name="btn1down"  >    &#8595 </button>
-              <button class="btn2up"     value="btn2up"   type="submit" value="VALUE3" name="btn2up"    >    &#8593 </button>
+              <!-- <button class="btn2up"     value="btn2up"   type="submit" value="VALUE3" name="btn2up"    >    &#8593 </button> -->
               <button class="btn2down"   value="btn1up"   type="submit" value="VALUE4" name="btn2down"  >    &#8595 </button>
-              <button class="btn3up"     value="btn1up"   type="submit" value="VALUE5" name="btn3up"    >    &#8593 </button>
+              <!-- <button class="btn3up"     value="btn1up"   type="submit" value="VALUE5" name="btn3up"    >    &#8593 </button> -->
               <button class="btn3down"   value="btn1up"   type="submit" value="VALUE6" name="btn3down"  >    &#8595 </button>
               <button class="btn4left"   value="btn1up"   type="submit" value="VALUE7" name="btn4left"  >    &#8592 </button>
-              <button class="btn4right"  value="btn1up"   type="submit" value="VALUE8" name="btn4right" >    &#8594 </button>
+              <!-- <button class="btn4right"  value="btn1up"   type="submit" value="VALUE8" name="btn4right" >    &#8594 </button> -->
               <button class="stop"       value="stop"     type="submit" value="STOP"   name="stop"      >    STOP   </button>
+              <button class="off"       value="off"       type="submit" value="OFF"    name="off"      >    OFF   </button>
+              <button class="kill"       value="kill"       type="submit" value="KILL"    name="kill"      >    KILL   </button>
               <button class="start"      value="start"    type="submit" value="START"  name="start"     >    START  </button>
             </form>
         </div>

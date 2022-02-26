@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <std_msgs/Int8.h>
+#include <std_msgs/Bool.h>
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "behaviortree_cpp_v3/loggers/bt_zmq_publisher.h"
 #include <pkg_rp_msgs/MovePlatSrv.h>
@@ -40,8 +41,19 @@ class SystemCheck
       if(_rp3_status == nullptr){ROS_FATAL("No status from rp3");return BT::NodeStatus::FAILURE;}
       if(_rp4_status == nullptr){ROS_FATAL("No status from rp4");return BT::NodeStatus::FAILURE;}
       std::cout << "[ Status:  " << int((*_rp1_status).data) << " " << int((*_rp2_status).data) << " " << int((*_rp3_status).data) << " " << int((*_rp4_status).data) << " ]" << std::endl;
-      return BT::NodeStatus::SUCCESS;
+      if (_configurations[_counter%10] == std::vector<int> {int((*_rp1_status).data),int((*_rp2_status).data),int((*_rp3_status).data),int((*_rp4_status).data)} )
+      {
+        _counter++;
+        return BT::NodeStatus::SUCCESS;
+      }
+      else
+      {
+        return BT::NodeStatus::FAILURE;
+      }
+      
     }
+
+    bool SendStop(){_stop_request = true;_start_request = false;}
 
     bool isStopping(){return _stop_request;}
     bool isStarting(){return _start_request;}
@@ -69,15 +81,19 @@ class SystemCheck
     bool _stop_request  = false;
     bool _start_request = false;
 
-    std::vector<uint8_t> _status {0,0,0,0};
-    std::vector<std::vector<uint8_t>> _configurations {{0,1,0,0},
-                                                       {0,1,0,1},
-                                                       {1,1,0,4},
-                                                       {1,1,1,3},
-                                                       {1,1,0,4},
-                                                       {0,1,0,1},
-                                                       {0,1,0,0},
-                                                       {0,0,0,0}};
+    int _counter = 0;
+
+    std::vector<int> _status {0,0,0,0};
+    std::vector<std::vector<int>> _configurations  {{0,0,0,4},
+                                                    {0,1,0,4},
+                                                    {0,1,0,1},
+                                                    {1,1,0,0},
+                                                    {1,1,0,2},
+                                                    {1,1,1,2},
+                                                    {1,1,0,2},
+                                                    {1,1,0,3},
+                                                    {0,1,0,1},
+                                                    {0,1,0,4}};
                                                        
 
 };

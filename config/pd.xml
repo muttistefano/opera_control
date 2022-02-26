@@ -2,14 +2,12 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <Repeat num_cycles="1">
-            <Sequence>
-                <Parallel failure_threshold="1" name="fase3" success_threshold="2">
-                    <Action ID="MovePlat1" position="1"/>
-                    <Action ID="MovePlat4" position="4"/>
-                </Parallel>
-            </Sequence>
-        </Repeat>
+        <Sequence>
+            <Action ID="MovePlat2" position="1"/>
+            <Action ID="MovePlat1" position="1"/>
+            <Action ID="MovePlat1" position="0"/>
+            <Action ID="MovePlat2" position="0"/>
+        </Sequence>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -25,6 +23,7 @@
         <Action ID="MovePlat4">
             <input_port name="position"/>
         </Action>
+        <Condition ID="WaitAndCheckStatus"/>
     </TreeNodesModel>
     <!-- ////////// -->
 </root>

@@ -4,50 +4,50 @@
     <BehaviorTree ID="BehaviorTree">
         <Sequence>
             <Sequence name="fase1">
-                <Action ID="MovePlat2" position="1"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat2" position="1"/>
             </Sequence>
             <Sequence name="fase2">
-                <Action ID="MovePlat4" position="1"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat4" position="1"/>
             </Sequence>
             <Sequence name="fase3">
+                <Condition ID="WaitAndCheckStatus" name=""/>
                 <Parallel failure_threshold="1" name="fase3" success_threshold="2">
                     <Action ID="MovePlat1" position="1"/>
                     <Action ID="MovePlat4" position="0"/>
                 </Parallel>
-                <Condition ID="WaitAndCheckStatus" name=""/>
             </Sequence>
             <Sequence name="fase4">
-                <Action ID="MovePlat4" position="2"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat4" position="2"/>
             </Sequence>
             <Sequence name="fase5">
-                <Action ID="MovePlat3" position="1"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat3" position="1"/>
             </Sequence>
             <Sequence name="fase6">
-                <Action ID="MovePlat3" position="0"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat3" position="0"/>
             </Sequence>
             <Sequence name="fase7">
-                <Action ID="MovePlat4" position="3"/>
                 <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat4" position="3"/>
             </Sequence>
             <Sequence name="fase8">
+                <Condition ID="WaitAndCheckStatus" name=""/>
                 <Parallel failure_threshold="1" name="fase3" success_threshold="2">
                     <Action ID="MovePlat1" position="0"/>
                     <Action ID="MovePlat4" position="1"/>
                 </Parallel>
-                <Condition ID="WaitAndCheckStatus" name=""/>
             </Sequence>
             <Sequence name="fase9">
-                <Action ID="MovePlat4" position="4"/>
                 <Condition ID="WaitAndCheckStatus"/>
+                <Action ID="MovePlat4" position="4"/>
             </Sequence>
             <Sequence name="fase10">
-                <Action ID="MovePlat2" position="0"/>
                 <Condition ID="WaitAndCheckStatus"/>
+                <Action ID="MovePlat2" position="0"/>
             </Sequence>
         </Sequence>
     </BehaviorTree>

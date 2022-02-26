@@ -1,20 +1,18 @@
 #include "opera_control/bt_nodes.h"
+#include <time.h>
 
 BT::NodeStatus MovePlat1::tick() 
 {
     Optional<int> msg = getInput<int>("position");
-    // Check if optional is valid. If not, throw its error
     if (!msg)
     {
         throw BT::RuntimeError("missing required input [position]: ", 
                                 msg.error() );
     }
-    std::cout << " value : " << msg.value();
     _halt_requested.store(false);
     pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
-    //TODO check response
     _position = srv.response.position_final;
     return _halt_requested ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
 }
@@ -22,7 +20,6 @@ BT::NodeStatus MovePlat1::tick()
 BT::NodeStatus MovePlat2::tick() 
 {
     Optional<int> msg = getInput<int>("position");
-    // Check if optional is valid. If not, throw its error
     if (!msg)
     {
         throw BT::RuntimeError("missing required input [position]: ", 
@@ -33,7 +30,6 @@ BT::NodeStatus MovePlat2::tick()
     pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
-    //TODO check response
     _position = srv.response.position_final;
     return _halt_requested ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
 }
@@ -41,7 +37,6 @@ BT::NodeStatus MovePlat2::tick()
 BT::NodeStatus MovePlat3::tick() 
 {
     Optional<int> msg = getInput<int>("position");
-    // Check if optional is valid. If not, throw its error
     if (!msg)
     {
         throw BT::RuntimeError("missing required input [position]: ", 
@@ -52,7 +47,6 @@ BT::NodeStatus MovePlat3::tick()
     pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
-    //TODO check response
     _position = srv.response.position_final;
     return _halt_requested ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
 }
@@ -60,7 +54,6 @@ BT::NodeStatus MovePlat3::tick()
 BT::NodeStatus MovePlat4::tick() 
 {
     Optional<int> msg = getInput<int>("position");
-    // Check if optional is valid. If not, throw its error
     if (!msg)
     {
         throw BT::RuntimeError("missing required input [position]: ", 
@@ -71,16 +64,20 @@ BT::NodeStatus MovePlat4::tick()
     pkg_rp_msgs::MovePlatSrv srv;
     srv.request.position_command = msg.value();
     MoveService.call(srv);
-    //TODO check response
     _position = srv.response.position_final;
     return _halt_requested ? NodeStatus::FAILURE : NodeStatus::SUCCESS;
 }
 
+double fRand(double fMin, double fMax)
+{
+    double f = (double)rand() / RAND_MAX;
+    return fMin + f * (fMax - fMin);
+}
 
 bool SystemCheck::RequestStop(std_srvs::Trigger::Request  &req,
             std_srvs::Trigger::Response &res)
 {
-    ROS_ERROR("Stop requested");
+    ROS_ERROR("Stop requested from service");
     this->_stop_request  = true;
     this->_start_request = false;
     return true;
@@ -102,22 +99,28 @@ int main(int argc, char** argv)
     ros::NodeHandle nh("~");
 
     std::string tree_path;
+    std::string tree_intro;
+
+    srand(time(nullptr));
+
     if (!nh.getParam("tree_path", tree_path))
     {
         ROS_ERROR("Param tree_path not found");
         return 0;
     }
-    std::cout << "0 ";
-    ROS_INFO_STREAM("tree_path: " << tree_path);
 
+    
+    ROS_INFO_STREAM("tree_path: "  << tree_path);
+
+    ros::Publisher offer_pub = nh.advertise<std_msgs::Bool>("offer",1);
 
     ros::AsyncSpinner spinner(2);
     spinner.start();
 
     BehaviorTreeFactory factory;
 
-
     SystemCheck checker(&nh);
+    
     factory.registerSimpleAction("WaitAndCheckStatus", std::bind(&SystemCheck::WaitAndCheckStatus, &checker));
 
 
@@ -127,19 +130,26 @@ int main(int argc, char** argv)
     factory.registerNodeType<MovePlat4>("MovePlat4");
 
     
-    auto tree = factory.createTreeFromFile(tree_path);
+    
+    auto tree = std::make_unique<BT::Tree>(factory.createTreeFromFile(tree_path));
 
-    PublisherZMQ publisher_zmq(tree);
+    // PublisherZMQ publisher_zmq(tree);
 
-    //TODO takes this out and esnsure all the rosruns spawned
     ros::Duration(5).sleep();
+
+
     ROS_INFO("STARTING\n");
+
+    int cycle = 0;
 
     while(ros::ok())
     {
-        // ROS_INFO_STREAM_THROTTLE(30,"TICK\n");;
-        auto ret_tree = tree.tickRoot();
+
+        auto ret_tree = tree->tickRoot();
         ros::Duration(.5).sleep();
+
+        double rwait = 20;
+
         if ( ret_tree == BT::NodeStatus::SUCCESS)
         {
             if(checker.isStopping())
@@ -148,13 +158,32 @@ int main(int argc, char** argv)
               while(!checker.isStarting() && ros::ok())
               {
                   ROS_WARN("SYSTEM IDLE \n");
+                  std_msgs::Bool b_ms;
+                  b_ms.data = true;
+                  offer_pub.publish(b_ms);
                   ros::Duration(2).sleep();
               }
             }
             ROS_WARN("Cycle finished \n");
-            ros::Duration(10).sleep();
+            ros::Duration(300).sleep();
         }
-        
+        else if ( ret_tree == BT::NodeStatus::FAILURE)
+        {
+            checker.SendStop();
+            while(!checker.isStarting() && ros::ok())
+            {
+                ROS_WARN("SYSTEM IDLE \n");
+                std_msgs::Bool b_ms;
+                b_ms.data = true;
+                offer_pub.publish(b_ms);
+                ros::Duration(2).sleep();
+            }
+            cycle = 0;
+        }
+        rwait = fRand(3,25);
+        ros::Duration(rwait).sleep();
+        cycle++;
+
     }
     
 

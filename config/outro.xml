@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <Sequence>
+            <Sequence name="fase0">
+                <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat2" position="1"/>
+            </Sequence>
+            <Sequence name="fase1">
+                <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat1" position="1"/>
+            </Sequence>
+            <Repeat num_cycles="2">
+                <Sequence name="fase2">
+                    <Condition ID="WaitAndCheckStatus" name=""/>
+                    <Action ID="MovePlat4" position="2"/>
+                    <Condition ID="WaitAndCheckStatus" name=""/>
+                    <Action ID="MovePlat4" position="3"/>
+                </Sequence>
+            </Repeat>
+            <Sequence name="fase1">
+                <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat1" position="0"/>
+            </Sequence>
+            <Sequence name="fase1">
+                <Condition ID="WaitAndCheckStatus" name=""/>
+                <Action ID="MovePlat2" position="0"/>
+            </Sequence>
+        </Sequence>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Action ID="MovePlat1">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat2">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat3">
+            <input_port name="position"/>
+        </Action>
+        <Action ID="MovePlat4">
+            <input_port name="position"/>
+        </Action>
+        <Condition ID="WaitAndCheckStatus"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
